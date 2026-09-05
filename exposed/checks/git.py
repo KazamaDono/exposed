@@ -16,7 +16,7 @@ SECRET_PATTERNS = [
 
 
 def check_git() -> CheckResult:
-    result = CheckResult(name="Git Configuration", icon="📦")
+    result = CheckResult(name="Git Configuration", icon=">")
 
     _check_signing(result)
     _check_credential_helper(result)

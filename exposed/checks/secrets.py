@@ -25,7 +25,7 @@ SECRET_RE = [
 
 
 def check_secrets() -> CheckResult:
-    result = CheckResult(name="Secrets in Dotfiles", icon="🔓")
+    result = CheckResult(name="Secrets in Dotfiles", icon=">")
     home = Path.home()
 
     found = 0

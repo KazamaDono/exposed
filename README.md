@@ -1,53 +1,31 @@
-# exposed
+<p align="center">
+  <br>
+  <code>exposed</code>
+  <br>
+  <strong>Find what you forgot to hide.</strong>
+  <br>
+  <br>
+  <a href="#install">Install</a> &middot;
+  <a href="#what-it-checks">Checks</a> &middot;
+  <a href="#usage">Usage</a> &middot;
+  <a href="#cicd-integration">CI/CD</a>
+  <br>
+  <br>
+</p>
 
-**Find what you forgot to hide.**
+A fast, zero-config CLI that audits your development environment for security misconfigurations and leaked secrets. One command. No setup.
 
-A fast, zero-config CLI tool that audits your development environment for security misconfigurations and accidentally exposed secrets.
+<p align="center">
+  <img src="demo.png" alt="exposed demo" width="720">
+</p>
 
-```
-$ exposed
-```
+---
 
-```
- ██████╗██╗  ██╗██████╗  █████╗ ███████╗███████╗██████╗
-██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗██╔════╝██╔════╝██╔══██╗
-█████╗   ╚███╔╝ ██████╔╝██║  ██║███████╗█████╗  ██║  ██║
-██╔══╝   ██╔██╗ ██╔═══╝ ██║  ██║╚════██║██╔══╝  ██║  ██║
-███████╗██╔╝╚██╗██║     ╚█████╔╝███████║███████╗██████╔╝
-╚══════╝╚═╝  ╚═╝╚═╝      ╚════╝ ╚══════╝╚══════╝╚═════╝
-  Find what you forgot to hide.
+## Why exposed?
 
-Scanning your development environment...
+Most secret scanners focus on your **git history**. `exposed` focuses on your **actual machine** — the SSH keys, shell history, dotfiles, running services, and file permissions that attackers target after initial access.
 
-╭──── 🔑  SSH Keys ────────────────────────────────────────╮
-│  ✓ ~/.ssh directory permissions OK (700)                 │
-│  ✓ ~/.ssh/id_ed25519 uses Ed25519                        │
-│  ⚠ ~/.ssh/id_ed25519 has no passphrase                   │
-│      fix: ssh-keygen -p -f ~/.ssh/id_ed25519             │
-╰──────────────────────────────────────────────────────────╯
-
-╭──── 📦  Git Configuration ──────────────────────────────╮
-│  ⚠ Commit signing not configured                         │
-│  ✗ Credential helper 'store' saves passwords in          │
-│    plaintext                                             │
-│      fix: git config --global credential.helper cache    │
-╰──────────────────────────────────────────────────────────╯
-
-╭──── 🌐  Network Exposure ───────────────────────────────╮
-│  ⚠ PostgreSQL (tcp:5432) listening on 0.0.0.0            │
-│      fix: Bind to 127.0.0.1 instead of 0.0.0.0          │
-│  ✓ 2 service(s) correctly bound to localhost only        │
-╰──────────────────────────────────────────────────────────╯
-
-╭───────────── Security Score ─────────────────╮
-│  Score     6.5/10                            │
-│  Rating    Fair                              │
-│                                              │
-│  ✗ Critical   2                              │
-│  ⚠ Warnings   4                              │
-│  ✓ Passed     8                              │
-╰──────────────────────────────────────────────╯
-```
+It's the security audit you should run on every dev machine, CI runner, and cloud instance.
 
 ## What it checks
 
@@ -55,10 +33,10 @@ Scanning your development environment...
 |-------|-------------------|
 | **SSH Keys** | Weak algorithms (DSA, short RSA), missing passphrases, wrong file permissions |
 | **Git Config** | Plaintext credential storage, unsigned commits, missing global gitignore, secrets in gitconfig |
-| **Secrets in Dotfiles** | API keys, tokens, passwords, and connection strings in .bashrc, .zshrc, .profile, .env files |
+| **Secrets in Dotfiles** | API keys, tokens, passwords, connection strings in `.bashrc`, `.zshrc`, `.profile`, `.env` |
 | **Shell History** | Credentials passed inline to curl, mysql, docker, psql, and other commands |
-| **File Permissions** | Overly permissive sensitive files (.aws/credentials, .kube/config, .npmrc, etc.) |
-| **Network Exposure** | Dev services (databases, caches, Docker) listening on 0.0.0.0 instead of localhost |
+| **File Permissions** | Overly permissive sensitive files (`.aws/credentials`, `.kube/config`, `.npmrc`, etc.) |
+| **Network Exposure** | Dev services (databases, caches, Docker) listening on `0.0.0.0` instead of localhost |
 | **Docker** | World-accessible socket, containers running as root |
 
 ## Install
@@ -67,37 +45,27 @@ Scanning your development environment...
 pip install exposed-cli
 ```
 
-Or run directly from the repo:
+Or from source:
 
 ```bash
-git clone https://github.com/aiida-com/exposed.git
+git clone https://github.com/KazamaDono/exposed.git
 cd exposed
 pip install .
-exposed
 ```
 
 ## Usage
 
 ```bash
-# Full scan
-exposed
-
-# Only critical/warning findings
-exposed -q
-
-# JSON output (for CI/CD pipelines)
-exposed --json
-
-# Run specific checks only
-exposed --checks ssh,git,network
-
-# No banner
-exposed --no-banner
+exposed                        # full scan
+exposed -q                     # critical + warning findings only
+exposed --json                 # machine-readable output
+exposed --checks ssh,network   # run specific checks
+exposed --no-banner            # skip the ASCII art
 ```
 
-### CI/CD Integration
+## CI/CD Integration
 
-`exposed` exits with code 1 if any critical findings are detected, making it easy to use in CI pipelines:
+`exposed` exits with code `1` when critical findings are detected.
 
 ```yaml
 # GitHub Actions
@@ -108,7 +76,7 @@ exposed --no-banner
     exposed -q
 ```
 
-### JSON Output
+Filter critical findings from JSON output:
 
 ```bash
 exposed --json | jq '.results[] | select(.findings[] | .severity == "critical")'
@@ -116,27 +84,27 @@ exposed --json | jq '.results[] | select(.findings[] | .severity == "critical")'
 
 ## Available Checks
 
-Run only the checks you need:
-
-```bash
-exposed --checks ssh           # SSH keys only
-exposed --checks git,secrets   # Git config + dotfile secrets
-exposed --checks network       # Network exposure only
+```
+ssh          SSH key algorithms, passphrases, permissions
+git          Credential storage, commit signing, gitignore
+secrets      Secrets in dotfiles and .env files
+history      Credentials leaked in shell history
+permissions  File permissions on sensitive config files
+network      Services exposed beyond localhost
+docker       Socket permissions, container user context
 ```
 
-Available check names: `ssh`, `git`, `secrets`, `history`, `permissions`, `network`, `docker`
+Run a subset:
 
-## Why exposed?
-
-Most secret scanners focus on your **git history**. `exposed` focuses on your **actual machine** — the SSH keys, shell history, dotfiles, running services, and file permissions that attackers target after initial access.
-
-It's the security audit you should run on every dev machine, CI runner, and cloud instance.
+```bash
+exposed --checks ssh,git,permissions
+```
 
 ## Requirements
 
 - Python 3.9+
 - Linux or macOS
-- Optional: Docker CLI (for container checks)
+- Docker CLI (optional, for container checks)
 
 ## License
 

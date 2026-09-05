@@ -24,7 +24,7 @@ PRIVATE_KEY_EXTENSIONS = {".pem", ".key", ".p12", ".pfx", ".jks"}
 
 
 def check_permissions() -> CheckResult:
-    result = CheckResult(name="File Permissions", icon="🛡️")
+    result = CheckResult(name="File Permissions", icon=">")
     home = Path.home()
     found_issues = False
 

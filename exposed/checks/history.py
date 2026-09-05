@@ -21,7 +21,7 @@ CREDENTIAL_CMD_RE = [
 
 
 def check_history() -> CheckResult:
-    result = CheckResult(name="Shell History", icon="📜")
+    result = CheckResult(name="Shell History", icon=">")
     home = Path.home()
     total_hits = 0
 

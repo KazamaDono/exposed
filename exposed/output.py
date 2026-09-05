@@ -10,12 +10,12 @@ from exposed.models import CheckResult, Finding, Severity
 console = Console()
 
 BANNER = r"""
-  ███████╗██╗  ██╗██████╗  ██████╗ ███████╗███████╗██████╗
-  ██╔════╝╚██╗██╔╝██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔══██╗
-  █████╗   ╚███╔╝ ██████╔╝██║   ██║███████╗█████╗  ██║  ██║
-  ██╔══╝   ██╔██╗ ██╔═══╝ ██║   ██║╚════██║██╔══╝  ██║  ██║
-  ███████╗██╔╝ ██╗██║     ╚██████╔╝███████║███████╗██████╔╝
-  ╚══════╝╚═╝  ╚═╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚═════╝"""
+                                    __
+   ___  _  ______  ____  ________  / /
+  / _ \| |/_/ __ \/ __ \/ ___/ _ \/ /
+ /  __/>  </ /_/ / /_/ (__  )  __/ /_
+ \___/_/|_/ .___/\____/____/\___/\__/
+          /_/"""
 
 
 def print_banner() -> None:
@@ -28,7 +28,7 @@ def print_scanning() -> None:
 
 
 def print_result(cr: CheckResult) -> None:
-    header = Text(f" {cr.icon}  {cr.name} ", style="bold")
+    header = Text(f" {cr.name} ", style="bold")
 
     if not cr.findings:
         console.print(Panel(Text("No checks performed", style="dim"), title=header.__str__()))
@@ -78,9 +78,9 @@ def print_score(results: list[CheckResult]) -> None:
     table.add_row("Score", Text(f"{score}/10", style=color))
     table.add_row("Rating", Text(grade, style=color))
     table.add_row("", "")
-    table.add_row(Text("✗ Critical", style="red"), str(crits))
-    table.add_row(Text("⚠ Warnings", style="yellow"), str(warns))
-    table.add_row(Text("✓ Passed", style="green"), str(passes))
+    table.add_row(Text("[x] Critical", style="red"), str(crits))
+    table.add_row(Text("[!] Warnings", style="yellow"), str(warns))
+    table.add_row(Text("[*] Passed", style="green"), str(passes))
 
     console.print(Panel(table, title="[bold] Security Score [/bold]", border_style=color, padding=(1, 2)))
 

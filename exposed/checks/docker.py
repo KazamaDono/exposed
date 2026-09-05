@@ -8,7 +8,7 @@ from exposed.models import CheckResult, Finding, Severity
 
 
 def check_docker() -> CheckResult:
-    result = CheckResult(name="Docker", icon="🐳")
+    result = CheckResult(name="Docker", icon=">")
 
     if not _docker_available():
         result.findings.append(Finding(Severity.INFO, "Docker not installed or not running"))

@@ -9,7 +9,7 @@ from exposed.models import CheckResult, Finding, Severity
 
 
 def check_ssh() -> CheckResult:
-    result = CheckResult(name="SSH Keys", icon="🔑")
+    result = CheckResult(name="SSH Keys", icon=">")
     ssh_dir = Path.home() / ".ssh"
 
     if not ssh_dir.is_dir():

@@ -24,7 +24,7 @@ RISKY_PORTS = {
 
 
 def check_network() -> CheckResult:
-    result = CheckResult(name="Network Exposure", icon="🌐")
+    result = CheckResult(name="Network Exposure", icon=">")
 
     listeners = _get_listeners()
     if listeners is None:

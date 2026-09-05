@@ -25,7 +25,7 @@ class Severity(Enum):
 
     @property
     def icon(self) -> str:
-        return {self.CRITICAL: "✗", self.WARNING: "⚠", self.INFO: "ℹ", self.PASS: "✓"}[self]
+        return {self.CRITICAL: "x", self.WARNING: "!", self.INFO: "-", self.PASS: "*"}[self]
 
 
 @dataclass
