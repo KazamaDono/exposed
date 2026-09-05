@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "exposed-cli"
+version = "1.0.0"
+description = "Find what you forgot to hide. Audit your dev environment for security misconfigurations and leaked secrets."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "Nour", email = "nour@aiida.com.au" }]
+keywords = ["security", "audit", "secrets", "devops", "cli", "devsecops"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = ["rich>=13.0"]
+
+[project.scripts]
+exposed = "exposed.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/aiida-com/exposed"
+Issues = "https://github.com/aiida-com/exposed/issues"
